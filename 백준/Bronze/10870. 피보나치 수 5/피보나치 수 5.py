@@ -1,3 +1,4 @@
+# DP로 풀면 런타임 에러 발생함
 def fib(n) :
     if n == 0 :
         return 0
