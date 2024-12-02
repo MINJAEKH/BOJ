@@ -1,12 +1,15 @@
-def find_dwarf(heights : list) :
+import itertools
+
+def find_dwarf(heights) :
     remainder = sum(heights) - 100
+    fake_combinations = list(itertools.combinations(heights, 2)) #nC2
 
-    for i in range(9) :
-        for j in range(i+1, 9) :
-            if remainder == heights[i] + heights[j] :
-                heights.remove(heights[i]) 
-                heights.remove(heights[j-1]) #i번째 인덱스를 제거 후 인덱스 -1 
-                return "\n".join(map(str, sorted(heights)))
+    for comb in fake_combinations :
+        if sum(comb) == remainder :
+            heights.remove(comb[0])
+            heights.remove(comb[1])
+            break
+    return '\n'.join(map(str,sorted(heights))) # inb형 리스트 join
 
-heights = [int(input()) for _ in range(9)]
+heights = [int(input()) for  _ in range(9)]
 print(find_dwarf(heights))
