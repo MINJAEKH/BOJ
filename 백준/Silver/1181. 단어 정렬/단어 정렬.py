@@ -1,10 +1,11 @@
+import sys
+input = sys.stdin.readline
+
 N = int(input())
 
-str_list = [input() for _ in range(N)]
-str_unique = list(set(str_list))
+vocab = [input().strip() for _ in range(N)]
+vocab = list(set(vocab)) 
 
-str_unique.sort(key = lambda x : x)
-str_unique.sort(key=len)
-
-for word in str_unique :
-    print(word)
+tmp = sorted(vocab, key = lambda x : (len(x), x))
+for voca in tmp :
+    print(voca)
