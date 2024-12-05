@@ -1,14 +1,15 @@
-from datetime import datetime
+import sys
+input = sys.stdin.readline
 
 N = int(input())
 
-info = []
+birth = []
 
-for _ in range(N):
+for _ in range(N) :
     name, day, month, year = input().strip().split()
-    birthday = datetime(int(year), int(month), int(day))
-    info.append([birthday, name])
+    birth.append([int(year),int(month),int(day),name])
 
-info.sort(key=lambda x: x[0])
-print(info[-1][-1])
-print(info[0][-1])
+birth.sort()
+#print(birth)
+print(birth[-1][-1])
+print(birth[0][-1])
