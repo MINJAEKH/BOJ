@@ -1,5 +1,5 @@
-#import sys
-#input = sys.stdin.readline
+import sys
+input = sys.stdin.readline
 
 def check_bingo(board) :
     bingo = 0
