@@ -12,3 +12,4 @@ Given an array rooms where rooms[i] is the set of keys that you can obtain if yo
 
 ![image](https://github.com/user-attachments/assets/05132465-c6dc-466e-a1c0-9f9087979c20)
 
+Runtime : 64ms, Memory : 12.8MB
