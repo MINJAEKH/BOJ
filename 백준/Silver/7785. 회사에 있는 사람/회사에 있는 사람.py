@@ -1,13 +1,11 @@
-N = int(input())
-record = {}
-working = []
+from collections import defaultdict 
+n = int(input())
 
-for _ in range(N) :
-    name, status = input().split()
-    record[name] = status
+worker_dict = defaultdict(str)
 
-for k, v in record.items() :
-    if v == 'enter' :
-        working.append(k)
-working.sort(reverse= True)
-print('\n'.join(working))
+for _ in range(n) :
+    name, status = input().strip().split()
+    worker_dict[name] = status
+
+result = [k for k,v in worker_dict.items() if v == 'enter']
+print(*sorted(result, reverse = True), sep='\n')
