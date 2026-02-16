@@ -1,11 +1,12 @@
 from collections import deque
 
-n = int(input())
-queue = deque(list(i for i in range(1, n+1)))
+card_list = [i for i in range(1, int(input())+1)]
+card_q = deque()
+card_q.extend(card_list)
 
-while len(queue) > 1 :
-    queue.popleft()
-    behind = queue.popleft()
-    queue.append(behind)
+while len(card_q) != 1 :
+    card_q.popleft()
+    back = card_q.popleft()
+    card_q.append(back)
 
-print(queue.pop())
+print(card_q[0])
