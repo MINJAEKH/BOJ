@@ -1,12 +1,11 @@
-from collections import deque
-stacked = deque()
+stacks = []
+result = 0
 
-for _ in range(int(input())) : #LIFO
+for _ in range(int(input())) : 
     num = int(input())
-    
     if num == 0 :
-        stacked.pop()    
-    else :
-        stacked.append(num)
+        stacks.pop()
+        continue
+    stacks.append(num)
 
-print(sum(stacked))
+print(sum(stacks))
