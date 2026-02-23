@@ -1,19 +1,18 @@
-import sys
-input = sys.stdin.readline
+def dfs(permut, node, visited) :
+    visited.append(node)
+    #print(visited)
+    if permut[node] not in visited :
+        dfs(permut, permut[node], visited)
 
-def DFS(link, i, visited) :
-    visited.append(i)
-    if link[i] not in visited :
-        DFS(link, link[i], visited)
-
-for _ in range(int(input())) :
+for i in range(int(input())) :
     n = int(input())
-    cnt = 0
-    link = [0]
-    link.extend(list(map(int, input().strip().split()))) # append랑 extend 제대로 사용하자 
+    permut = [0] + list(map(int, input().rstrip().split()))
     visited = []
-    for i in range(1, n+1) :
-        if i not in visited :
-            DFS(link, link[i], visited)
+    cnt = 0
+
+    for node in range(1, n+1) :
+        if node not in visited :
+            #print(node,':',permut[node])
+            dfs(permut, node, visited)
             cnt += 1
     print(cnt)
