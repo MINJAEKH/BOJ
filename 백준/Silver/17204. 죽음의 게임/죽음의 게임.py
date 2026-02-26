@@ -1,22 +1,24 @@
-import sys
-input = sys.stdin.readline
-import queue
-def bfs(i) : # i == start node
-    cnt = 0
-    my_queue  = queue.Queue()
-    my_queue.put(i) 
+from collections import deque
 
-    for _ in range(n) :
-        u = my_queue.get()
-        cnt += 1
-        if graph[u] == k :
-            return cnt
-        else :
-            my_queue.put(graph[u]) 
+n, k = map(int, input().rstrip().split())
+graph = [int(input()) for i in range(n)]
+q = deque([0])
 
+def bfs(k, queue) :
+    m = 0
+    visited= set()
+
+    while queue :
+        num = queue.popleft() # 0 # 1
+        visited.add(num) # 0, 1
+        next = graph[num] # 1 # 3
+
+        m += 1 # 1 # 2
+        if next == k :
+            return m
+
+        if next not in visited : 
+            queue.append(next) # 1 # 3
     return -1
 
-n, k = map(int, input().strip().split())
-graph = [int(input()) for _ in range(n)]
-
-print(bfs(0))
+print(bfs(k, q))
