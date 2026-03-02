@@ -13,6 +13,9 @@ def solution(maps):
     while q :
         x, y = q.popleft()
         
+        if x == n-1 and y == m-1 :
+            return visited[n-1][m-1]
+        
         for i in range(4) :
             nx = x + dx[i]
             ny = y + dy[i]
@@ -21,4 +24,4 @@ def solution(maps):
                     visited[nx][ny] = visited[x][y] + 1
                     q.append((nx,ny))
 
-    return visited[-1][-1]
+    return visited[n-1][m-1]
