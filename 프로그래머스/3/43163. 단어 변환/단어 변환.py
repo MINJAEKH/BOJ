@@ -11,8 +11,6 @@ def solution(begin, target, words):
         if from_word == target :
             return cnt 
         
-        visited.add(from_word)
-        
         for i, to_word in enumerate(words) : 
             if to_word in visited : 
                 continue
@@ -22,6 +20,7 @@ def solution(begin, target, words):
                 if from_word[j] != to_word[j] :
                     diff += 1
             if diff == 1 :
+                visited.add(from_word)
                 q.append([to_word, cnt+1]) 
-          
+                
     return 0
