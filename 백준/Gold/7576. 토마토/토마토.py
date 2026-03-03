@@ -1,43 +1,44 @@
 import sys
 input = sys.stdin.readline
-from collections import deque
 
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
+from collections import deque, Counter
 
-m, n = map(int, input().split())
-arr = [list(map(int, input().split())) for _ in range(n)]
+c, r = map(int, input().split())
+tomatoes = [list(map(int, input().split())) for _ in range(r)]
 
-queue = deque()
-visited = [[False]*m for _ in range(n)]
-#visited = set()
-tomato_cnt = 0 
+def bfs(r, c, tomatoes) : 
+    q = deque()
+    days = 0
 
-for i in range(n) :
-    for j in range(m) :
-        if arr[i][j] == 1 :
-            queue.append((0,i,j))
-            tomato_cnt += 1
+    dx = [-1,1,0,0]
+    dy = [0,0,-1,1]
 
-        elif arr[i][j] == 0 :
-            tomato_cnt += 1
-
-while queue :
-    day, x, y = queue.popleft()
-    visited[x][y] = True
+    if sum(tomatoes[row].count(0) for row in range(r)) == 0 : 
+        return 0
     
-    for d in range(4) : 
-        nx = x + dx[d] 
-        ny = y + dy[d]
-        
-        if 0 <= nx< n and 0 <= ny < m :
-            if arr[nx][ny] == 0 and visited[nx][ny] == False : 
-                arr[nx][ny] = 1
-                queue.append((day+1, nx, ny))
+    for row in range(r) : 
+        for col in range(c) :
+            if tomatoes[row][col] == 1 :
+                q.append((row, col))
 
-empty_cnt = n*m - tomato_cnt
-if (tomato_cnt - empty_cnt) == sum([sum(row) for row in arr]) :
-    # 0 이 없을 땐 day  = 0
-    print(day)
-else :
-    print(-1)
+    while q :
+        x, y = q.popleft()
+ 
+        for i in range(4) :
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if 0 <= nx < r and 0 <= ny < c and tomatoes[nx][ny] == 0  :
+                q.append((nx, ny))
+                tomatoes[nx][ny] = tomatoes[x][y] + 1
+
+    result = 0
+    for row in tomatoes : 
+        for value in row : 
+            if value == 0 :
+                return -1
+
+            result = max(result, value) 
+
+    return result - 1
+
+print(bfs(r, c, tomatoes))
