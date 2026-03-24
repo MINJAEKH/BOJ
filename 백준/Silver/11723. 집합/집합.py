@@ -8,17 +8,20 @@ for _ in range(int(input())) :
     if len(ops) == 1:
         op = ops[0]
     else:
-        op, x_set = ops[0], {int(ops[1])}
+        op, x = ops[0], int(ops[1])
 
     if op == 'all':
         s = set(range(1, 21))
     elif op == 'empty' :
         s.clear()
     elif op == 'add' :
-        s = s | x_set
+        s.add(x)
     elif op == 'remove' :
-        s = s - x_set
+        s.discard(x)
     elif op == 'check' :
-        print(1 if s & x_set else 0)
+        print(1 if x in s else 0)
     elif op == 'toggle' :
-        s = s ^ x_set
+        if x in s :
+            s.remove(x)
+        else :
+            s.add(x)
