@@ -15,8 +15,8 @@ def solution(numbers):
     num_list = list(numbers)
     
     for i in range(1, len(numbers)+1) :
-        permut = {int("".join(p)) for p in list(permutations(num_list,i))}
-        for num in permut : 
+        for p in permutations(numbers, i): 
+            num = int(''.join(p))
             if num not in checked and is_decimal(num):
                 answer += 1
                 #print(f'num = {num}, chekced = {checked}, answer = {answer}')
