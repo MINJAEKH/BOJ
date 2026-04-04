@@ -1,42 +1,51 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(100000)
 
-v, e = map(int, input().split())
 edges = []
+v, e = map(int, input().split())
 
-for _ in range(e):
-    a, b, c = map(int, input().split())
-    edges.append((a, b, c))
+for _ in range(e) :
+    n1, n2, cost = map(int, input().split())
+    edges.append([n1, n2, cost])
+
+def kruskal(edges, v) :
+    parent = [i for i in range(v+1)]
+    r = [0] * (v+1)
+    total_cost = 0
+    cnt = 0
+
+    edges.sort(key=lambda x : x[2]) # 가중치 오름차순 정렬
+
+    def find(node) :
+        nonlocal parent
+
+        if parent[node] != node :
+            parent[node] = find(parent[node])
+        return parent[node]
     
-edges.sort(key =lambda x : x[2]) # c
+    def union(root_x, root_y) :
+        nonlocal parent, r
+        if r[root_x] > r[root_y]:
+            parent[root_y] = root_x
+        elif r[root_x] < r[root_y]:
+            parent[root_x] = root_y
+        else: # 높이가 같을 때만
+            parent[root_y] = root_x
+            r[root_x] += 1 # 한쪽 층수를 높임
 
-# Union-Find
-parent = dict()
-for i in range(1, v+1):    
-    parent[i] = i
+    for x, y, cost in edges :
+        root_x = find(x)
+        root_y = find(y)
 
-def get_parent(x) :
-    if parent[x] == x : # node num = parent node num
-        return x
-    parent[x] = get_parent(parent[x]) 
-    return parent[x]
+        if root_x != root_y :
+            union(root_x, root_y)
+            total_cost += cost
+            cnt += 1
 
-def union_parent(a,b) :
-    a = get_parent(a)
-    b = get_parent(b)
-    
-    if a < b : # 작은 쪽이 부모가 된다
-        parent[b] = a
-    else :
-        parent[a] = b
-        
-def find_same_parent(a,b) : # 같은 그래프 내에 있는지 확인
-    return get_parent(a) == get_parent(b)
+        if cnt == v-1 : 
+            break
 
-ans = 0
-for a, b, cost in edges :
-    if not find_same_parent(a, b) :
-        union_parent(a, b) 
-        ans += cost
-print(ans)
+    return total_cost
+
+answer = kruskal(edges, v)
+print(answer)
