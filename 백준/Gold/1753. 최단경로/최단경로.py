@@ -1,38 +1,39 @@
+import heapq
 import sys
 input = sys.stdin.readline
 
-import heapq
+v, e = map(int, input().split())
+start = int(input())
 
-V, E = map(int, input().split())
-K = int(input())
+graph = {i: [] for i in range(1, v + 1)}
+dist = [float('inf')] * (v + 1)
 
-adj = [[] for _ in range(V + 1)]        # 인접 리스트
+for _ in range(e):
+    n1, n2, w = map(int, input().split())
+    graph[n1].append((n2, w))
 
-for _ in range(E):
-    s, e, w = map(int, input().split()) # 단방향 그래프
-    adj[s].append((w, e))
+def dijkstra(start, dist, graph):
+    dist[start] = 0
+    hp = [(0, start)]  # (비용, 노드)
 
-dist = [987654321] * (V + 1)            # 최단거리 기록할 리스트
-heap = []
+    while hp:
+        curr_cost, node = heapq.heappop(hp)
 
-dist[K] = 0                             # 시작점 설정
-heapq.heappush(heap, (0, K))
+        if dist[node] < curr_cost:
+            continue
 
-while heap:                             # 힙이 빌 때까지
-    wei, now = heapq.heappop(heap)      # 누적 가중치와 노드 번호를 뽑아서
+        for next_node, weight in graph[node]:
+            next_cost = curr_cost + weight
 
-    if dist[now] < wei:                 # 현재 최적값이 아니라면 패스
-        continue
+            if dist[next_node] > next_cost:
+                dist[next_node] = next_cost
+                heapq.heappush(hp, (next_cost, next_node))
 
-    for w, next_node in adj[now]:       # 다음 갈 수 있는 곳을 탐색해서
-        next_wei = wei + w              # 현재 가중치에 다음 가중치를 더한 값이
+    return dist
 
-        if next_wei < dist[next_node]:  # 현재 그 노드로 갈 수 있는 가중치보다 작다면(갱신 가능하다면)
-            dist[next_node] = next_wei  # 갱신하고 힙에 넣기
-            heapq.heappush(heap, (next_wei, next_node))
-
-for d in dist[1:]:
-    if d == 987654321:
+result = dijkstra(start, dist, graph)
+for i in range(1, len(result)):
+    if result[i] == float('inf'):
         print('INF')
     else:
-        print(d)
+        print(result[i])
