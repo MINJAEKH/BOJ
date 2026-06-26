@@ -1,16 +1,18 @@
-from collections import deque
+from collections import deque 
 
 def solution(priorities, location):
-    q = deque([(p, i) for i, p in enumerate(priorities)])
-    sorted_priorities = sorted(priorities, reverse=True)
     answer = 0
+    queue = deque([
+        (priority, i) for i, priority in enumerate(priorities)
+    ])
     
-    while q:
-        curr_p, curr_i = q.popleft()
+    while queue :
+        process = queue.popleft()
         
-        if curr_p < sorted_priorities[answer]:
-            q.append((curr_p, curr_i))
-        else:
+        if any(process[0] < q[0] for q in queue) :
+            queue.append(process)
+        else :
             answer += 1
-            if curr_i == location:
+            
+            if process[1] == location :
                 return answer
