@@ -1,12 +1,12 @@
 from collections import deque
 
 def solution(numbers, target):
-    q = deque([0])
+    n = len(numbers) 
     
-    for num in numbers :
-        for _ in range(len(q)) : 
-            before = q.popleft()
-            q.append(before + num)
-            q.append(before - num)    
-            
-    return q.count(target)
+    def dfs(idx, total) :
+        if idx == n : 
+            return 1 if total == target else 0
+        
+        return dfs(idx+1, total + numbers[idx]) + dfs(idx+1, total - numbers[idx])
+        
+    return dfs(0,0)
