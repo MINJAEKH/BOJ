@@ -1,22 +1,22 @@
 def solution(word):
     answer = 0
+    flag = False
     vowels = 'AEIOU'
-    found = False
     
-    def dfs(new_word) :
-        nonlocal found, answer
+    def dfs(curr_word, depth) :
+        nonlocal answer, flag
         
-        if word == new_word :
-            found = True
+        if curr_word == word :
+            flag = True
+            return
+        if depth == 5 :
             return
         
-        if len(new_word) == 5 :
-            return
-        
-        for i in range(5) :
-            if not found : 
-                answer += 1
-                dfs(new_word + vowels[i])
-    
-    dfs('')
+        for v in vowels :
+            if flag : 
+                break
+            answer += 1
+            dfs(curr_word + v, depth+1)
+            
+    dfs('', 0)   
     return answer
