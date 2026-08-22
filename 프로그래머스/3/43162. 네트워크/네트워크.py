@@ -1,19 +1,15 @@
-from collections import deque
-
+def dfs(n, i, visited, computers) :
+    visited[i] = True
+    for j in range(n) :
+        if not visited[j] and computers[i][j] == 1 :
+            dfs(n, j, visited, computers)
+    
 def solution(n, computers):
     answer = 0
-    visited= [False]*n
+    visited = [False]*n
     
     for i in range(n) :
         if not visited[i] :
-            visited[i] = True
-            q = deque([i])
-        
-            while q :
-                k = q.popleft()
-                for j in range(n) :
-                    if computers[k][j] == 1 and not visited[j] :
-                        visited[j] = True
-                        q.append(j)
+            dfs(n, i, visited, computers)
             answer += 1
     return answer
