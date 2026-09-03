@@ -1,26 +1,22 @@
 from collections import deque
 
-def solution(begin, target, words): 
-    q = deque([(begin, 0)])
-    visited = set()
+def solution(begin, target, words):
+    if target not in words :
+        return 0
     
-    while q : 
-        # print(f"q:{q}")
-        from_word, cnt = q.popleft()
+    q = deque([(begin, 0)])
+    visited = set([begin])
+    answer = 0
+    
+    while q :
+        curr_word, step = q.popleft()
         
-        if from_word == target :
-            return cnt 
+        if curr_word == target :
+            return step
         
-        for i, to_word in enumerate(words) : 
-            if to_word in visited : 
-                continue
-                
-            diff = 0
-            for j in range(len(from_word)) :
-                if from_word[j] != to_word[j] :
-                    diff += 1
-            if diff == 1 :
-                visited.add(from_word)
-                q.append([to_word, cnt+1]) 
-                
-    return 0
+        for word in words :
+            if word not in visited : 
+                diff = sum(1 for a, b in zip(word, curr_word) if a != b)
+                if diff == 1 :
+                    visited.add(word)
+                    q.append((word, step+1))
