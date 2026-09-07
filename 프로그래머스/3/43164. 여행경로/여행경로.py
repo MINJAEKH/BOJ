@@ -1,26 +1,24 @@
 from collections import defaultdict
 
 def solution(tickets):
-    visited = defaultdict(list)
-    routes = defaultdict(list)
-    depth = len(tickets) + 1
+    graph = defaultdict(list)
 
-    for start, end in tickets :
-        routes[start].append(end)
-        visited[start].append(False)
-    for key in routes :
-        routes[key].sort()
-    
-    def dfs(curr, path) :
-        if len(path) == depth :
-            return path
-        
-        for idx, nxt in enumerate(routes[curr]):
-            if not visited[curr][idx] : 
-                visited[curr][idx] = True
-                result = dfs(nxt, path + [nxt])
-                if result :
-                    return result
-                visited[curr][idx] = False
-                
-    return dfs("ICN", ["ICN"])
+    for start, end in tickets:
+        graph[start].append(end)
+
+    # 역순 정렬
+    for airport in graph:
+        graph[airport].sort(reverse=True)
+
+    result = []
+
+    def dfs(current):
+        while graph[current]:
+            next_airport = graph[current].pop()
+            dfs(next_airport)
+
+        result.append(current)
+
+    dfs("ICN")
+
+    return result[::-1]
