@@ -1,21 +1,19 @@
 def solution(N, number):
-    if N == number:
-        return 1
     
-    S = [set() for _ in range(9)]
+    dp = [set() for _ in range(9)] # 5 i개로 만들 수 있는 숫자들 dp[i]
     
-    for i in range(1, 9):
-        S[i].add(int(str(N) * i))
-        
+    for i in range(1, 9) :
+        dp[i].add(int(str(N)*i)) # 숫자 이어붙이기
         for j in range(1,i) :
-            for obj1 in S[j] :
-                for obj2 in S[i-j] :
-                    S[i].add(obj1 + obj2)
-                    S[i].add(obj1 - obj2)
-                    S[i].add(obj1 * obj2)
+            for num1 in dp[j] :
+                for num2 in dp[i-j] :
+                    dp[i].add(num1 + num2)
+                    dp[i].add(num1 - num2)
+                    dp[i].add(num1 * num2)
                     
-                    if obj2 != 0 :
-                        S[i].add(obj1 / obj2)
-        if number in S[i] :
+                    if num2 != 0 :
+                        dp[i].add(num1 / num2)
+        
+        if number in dp[i] :
             return i
     return -1
