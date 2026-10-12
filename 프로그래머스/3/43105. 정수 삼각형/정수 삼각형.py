@@ -4,7 +4,6 @@ def solution(triangle):
     while height >= 0 :
         for i in range(height) :
             triangle[height-1][i] += max(triangle[height][i], triangle[height][i+1])
-        #print(f'{height}번째 결과 : {triangle[height]}')
         height -= 1
         
     return triangle[0][0]
