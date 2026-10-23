@@ -1,8 +1,11 @@
-from itertools import combinations
+def backtracking(number, depth, start, total) :
+    if depth == 3 :
+        return 1 if total == 0 else 0
+    
+    answer = 0
+    for i in range(start, len(number)) :
+        answer += backtracking(number, depth+1, i+1, total+number[i])
+    return answer
     
 def solution(number):
-    answer = 0
-    for i in combinations(number, 3) :
-        if sum(i) == 0 :
-            answer += 1
-    return answer
+    return backtracking(number, 0, 0, 0)
