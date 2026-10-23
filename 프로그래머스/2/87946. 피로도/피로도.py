@@ -1,15 +1,18 @@
-def backtracking(k, dungeons, visited, cnt) :
-    answer = cnt # 현재 탐험한 던전 개수 
+def backtracking(k, n, dungeons, visited) : 
+    answer = 0
     
     for i in range(len(dungeons)) :
         required, consumed = dungeons[i]
-        if not visited[i] and k >= required :
+        
+        if k >= required and visited[i] == False :
             visited[i] = True
-            answer = max(answer, backtracking(k-consumed, dungeons, visited, cnt+1))
-            # print(f'i -> {i} : visited={visited}, k={k}, cnt={cnt}, answer={answer}')
+            answer = max(answer, backtracking(k-consumed, n, dungeons, visited)+1)
             visited[i] = False
-    return answer 
+    return answer
 
 def solution(k, dungeons):
-    visited = [False] * len(dungeons)
-    return backtracking(k, dungeons, visited, 0)
+    n = len(dungeons)
+    visited = [False]*len(dungeons)
+    
+    return backtracking(k, n, dungeons, visited)
+    
